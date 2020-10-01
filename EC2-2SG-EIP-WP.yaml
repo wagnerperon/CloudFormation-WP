@@ -1,0 +1,59 @@
+---
+# ###################################
+# Create EC2 + 2 Security Groups
+# 2020.10.01 - Wagner Peron
+# ###################################
+
+# Using this parameter, I can request to input the Security group description to SG-Sever-Http-SSH
+Parameters:
+  SecurityGroupDescription:
+    Description: Security Group Description
+    Type: String
+
+# Creating EC2 instance
+  # Region: us-east-1a
+  # Instance type: t2.micro
+Resources:
+  MyInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone: us-east-1a
+      ImageId: ami-009d6802948d06e52
+      InstanceType: t2.micro
+      SecurityGroups:
+        - !Ref SG-SSH
+        - !Ref SG-Sever-Http-SSH
+
+  # Adding Elastic IP for instance
+  MyEIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      InstanceId: !Ref MyInstance
+
+  # Configuring Security Group 
+  # Enable SSH port 
+  SG-SSH:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable SSH access via port 22
+      SecurityGroupIngress:
+      - CidrIp: 0.0.0.0/0
+        FromPort: 22
+        IpProtocol: tcp
+        ToPort: 22
+
+  # Configuring Security Group 
+  # Enable - (IN) 80 (HTTP) and SSH Ports
+  SG-Sever-Http-SSH:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: !Ref SecurityGroupDescription
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 192.168.1.1/32
