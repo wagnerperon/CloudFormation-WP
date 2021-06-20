@@ -1,0 +1,12 @@
+
+# ###############################################################
+# Cria um S3 Bucket com o nome wagnerperon-s3
+# 20.06.2021 - Wagner Peron
+# ###############################################################
+Resources:
+  MyS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: wagnerperon-s3-v2  # nome do bucket
+      # AccessControl: PublicRead   # Deixará o acesso Publico
+      # BucketName: "wagnerperon-12345233" # Caso deseje alterar o nome de um S3 já existe na hora do Update Stack no CloudFormation
