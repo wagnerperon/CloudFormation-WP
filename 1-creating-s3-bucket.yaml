@@ -1,0 +1,11 @@
+
+# ###############################################################
+# Cria um S3 Bucket com o nome wagnerperon-s3
+# 20.06.2021 - Wagner Peron
+# ###############################################################
+Resources:
+  MyS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties: {
+    BucketName: wagnerperon-s3 #nome do bucket
+    }
