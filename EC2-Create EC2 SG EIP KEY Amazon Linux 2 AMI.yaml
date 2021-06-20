@@ -1,0 +1,36 @@
+
+Resources:
+  MyInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone: us-east-1a   # North Virginia
+      ImageId: ami-0aeeebd8d2ab47354 # Amazon Linux 2 AMI (HVM), SSD Volume Type 
+      InstanceType: t2.micro
+      KeyName: wagnerperonaws02-2021 # chave
+      SecurityGroups:
+        - !Ref SSHSecurityGroup
+      
+  # Caso precise de um Elastic IP
+
+  # an elastic IP for our instance
+  # MyEIP:
+    # Type: AWS::EC2::EIP
+    # Properties:
+      # InstanceId: !Ref MyInstance
+
+  # Criando um SecurityGroup com 2 liberações  
+  SSHSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable SSH access via port 22
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 0.0.0.0/0
+
+  
